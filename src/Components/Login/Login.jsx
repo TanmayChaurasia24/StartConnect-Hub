@@ -1,9 +1,10 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import "./Login.css";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { SignupFormDemo } from "./Loginanimation";
+// import jwt_decode from "jwt-decode"; // Make sure you have this imported
 
 const Login = ({ isDarkMode }) => {
   const [email, setEmail] = useState("");
@@ -31,6 +32,9 @@ const Login = ({ isDarkMode }) => {
     }
 
     setWarnings({ email: emailWarning, password: passwordWarning });
+
+    console.log("Email warning:", emailWarning);
+    console.log("Password warning:", passwordWarning);
 
     if (!emailWarning && !passwordWarning && email && password) {
       console.log("Logging in with email:", email);
@@ -62,60 +66,32 @@ const Login = ({ isDarkMode }) => {
   }, [isDarkMode]);
 
   return (
-    <GoogleOAuthProvider clientId="784513715091-aa0p18bmv854re0amstgj2up3656cvsd.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
       <div className="login-outerContainer">
         <div className={`login-container ${isDarkMode ? 'dark-mode' : ''}`}>
-          <h2>Login</h2>
-          <div className="input-container">
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setWarnings((prevWarnings) => ({ ...prevWarnings, email: "" }));
-              }}
-              onBlur={(e) => {
-                if (!validateEmail(e.target.value)) {
-                  setWarnings((prevWarnings) => ({ ...prevWarnings, email: "*Please enter a valid email address!" }));
-                }
-              }}
-            />
-            {warnings.email && <p style={{ color: "red" }} className="warningmsg">{warnings.email}</p>}
-
-            <div className="input-container">
-            <label>Password</label>
-              <input
-                type={isVisible ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setWarnings((prevWarnings) => ({ ...prevWarnings, password: "" }));
-                }}
-                onBlur={(e) => {
-                  if (!e.target.value) {
-                    setWarnings((prevWarnings) => ({ ...prevWarnings, password: "*Please enter your password" }));
-                  }
-                }}
-              />
-              <i
-                className="eye"
-                onClick={togglePasswordFunction}
-              >
-                <FontAwesomeIcon icon={isVisible ? faEyeSlash : faEye} />
-              </i>
-            </div>
-            {warnings.password && <p style={{ color: "red" }} className="warningmsg">{warnings.password}</p>}
+          <div>
+            <SignupFormDemo />
           </div>
-          <button onClick={handleLogin}>Login</button>
+          
+          <button
+            className="bg-gradient-to-br relative group/btn ..."
+            type="submit"
+            onClick={() => {
+              console.log("Login button clicked");
+              handleLogin();
+            }}
+          >
+            Login &rarr;
+            <BottomGradient />
+          </button>
+          
           <p>
             Forgot your password? <NavLink to="/forgot-password">Reset it here</NavLink>
           </p>
           <p>
             Don't have an account? <NavLink to="/signup">Sign up</NavLink>
           </p>
+          
           <div className="googlelogin">
             <GoogleLogin
               onSuccess={handleGoogleLoginSuccess}
@@ -125,6 +101,15 @@ const Login = ({ isDarkMode }) => {
         </div>
       </div>
     </GoogleOAuthProvider>
+  );
+};
+
+const BottomGradient = () => {
+  return (
+    <>
+      <span className="group-hover/btn:opacity-100 block ..." />
+      <span className="group-hover/btn:opacity-100 ..." />
+    </>
   );
 };
 

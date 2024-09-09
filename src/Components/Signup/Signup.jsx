@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import "./Signup.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -56,7 +57,7 @@ const Signup = () => {
 
   const handleSignUp = () => {
     console.log("Signing up with email:", email, "and password:", password);
-    // Your signup logic here
+    navigate('/login')
   };
 
   return (
